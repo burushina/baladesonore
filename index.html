@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Balade sonore — Crouy-sur-Ourcq</title>
+<meta name="description" content="Une balade sonore immersive à travers le cœur médiéval de Crouy-sur-Ourcq. Le projet, les auteurs et les crédits.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BALADE SONORE · Crouy-sur-Ourcq — feuille de style commune
+   Mobile-first. Blackletter pour les titres, mono pour le reste.
+   N&B strict. Rythme vertical : LH = 24px, multiples de 8.
+   Aucun filet décoratif — la hiérarchie tient par l'espace.
+   ============================================================ */
+
+:root{
+  --ink:#0a0a0a;
+  --bg:#ffffff;
+  --dim:rgba(10,10,10,.45);
+  --faint:rgba(10,10,10,.10);
+  --black:'UnifrakturMaguntia', serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+  --lh:24px;
+  --pad:20px;
+  --player-h:76px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--mono);
+  font-size:14px;line-height:var(--lh);
+  font-feature-settings:"tnum" 1;
+  -webkit-font-smoothing:antialiased;
+  max-width:520px;margin:0 auto;
+  min-height:100svh;
+  padding:0 var(--pad) calc(var(--player-h) + 32px);
+  -webkit-tap-highlight-color:transparent;
+}
+body.no-player{padding-bottom:calc(var(--lh)*2)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+/* ---------- header ---------- */
+header{
+  display:flex;justify-content:space-between;align-items:center;
+  height:calc(var(--lh)*2.5);
+  position:sticky;top:0;background:var(--bg);z-index:20;
+}
+.brand{font-family:var(--black);font-size:24px;line-height:1;white-space:nowrap;flex:0 0 auto}
+.hmeta{
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:52%;text-align:right;padding-left:12px;
+}
+
+/* ---------- accueil ---------- */
+.intro{padding-top:calc(var(--lh)*.5)}
+.intro h1{
+  font-family:var(--black);font-weight:400;
+  font-size:clamp(46px,14vw,60px);line-height:1;
+  margin-bottom:var(--lh);
+}
+.intro p{font-size:15px;line-height:1.55;max-width:34ch}
+.intro p .d{color:var(--dim)}
+.facts{
+  margin-top:calc(var(--lh)*1.5);
+  display:grid;grid-template-columns:1fr 1fr;row-gap:14px;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+}
+.facts div{display:flex;flex-direction:column;gap:4px}
+.facts b{color:var(--ink);font-weight:400;font-size:15px;letter-spacing:0;text-transform:none}
+
+.section-label{
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+  margin:calc(var(--lh)*2) 0 var(--lh);
+}
+
+/* ---------- capsules ---------- */
+.chain{display:flex;flex-direction:column;gap:10px}
+.cap{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;
+  background:var(--ink);color:var(--bg);
+  border-radius:999px;padding:16px 24px;min-height:66px;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1);
+}
+.cap:active{transform:scale(.985)}
+.cap__n{font-size:11px;letter-spacing:.08em;opacity:.55}
+.cap__t{font-family:var(--black);font-size:25px;line-height:1;display:block}
+.cap__time{font-size:12px;opacity:.55;white-space:nowrap}
+.link{height:10px;display:flex;justify-content:center;align-items:center}
+.link::before{content:"";width:3px;height:3px;border-radius:50%;background:var(--dim)}
+
+/* ---------- page d'un arrêt ----------
+   Sur mobile, l'illustration ET le bouton play doivent TOUJOURS être
+   visibles à l'écran, quelle que soit la hauteur de l'appareil —
+   sans avoir à faire défiler. On utilise 100dvh (hauteur réelle du
+   viewport, barre d'adresse comprise) et une colonne flex où c'est
+   l'illustration qui s'adapte, jamais le bouton. */
+html, body.stop-page{ height:100%; }
+body.stop-page{
+  display:flex; flex-direction:column;
+  height:100dvh; max-height:100dvh;
+  padding-bottom:0; overflow:hidden;
+}
+body.stop-page header{ flex:0 0 auto; }
+body.stop-page main{
+  flex:1 1 auto; min-height:0;
+  display:flex; flex-direction:column;
+  padding-bottom:calc(var(--lh)*1.25);
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+}
+/* le duo image + bouton occupe TOUJOURS tout l'écran disponible au
+   chargement ; si le texte du transcript s'ouvre et dépasse, c'est
+   cette zone qui défile — jamais au détriment de l'image/bouton. */
+body.stop-page main > .illu{ flex:1 1 auto; }
+body.stop-page main > .play-main{ flex:0 0 auto; }
+
+.crumb{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+  padding-top:calc(var(--lh)*.5);
+  flex:0 0 auto;
+}
+.illu{
+  margin-top:var(--lh);
+  width:100%;
+  background:#f4f3f0;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  flex:1 1 auto;   /* absorbe l'espace disponible, ne pousse jamais le bouton hors écran */
+  min-height:0;
+}
+.illu img{width:100%;height:100%;object-fit:contain;display:block}
+.illu .ph{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+/* le bouton, le transcript et le pied de page ne rétrécissent jamais */
+.play-main, .acc, .foot{ flex:0 0 auto; }
+
+h2.title{
+  font-family:var(--black);font-weight:400;
+  font-size:clamp(38px,11vw,50px);line-height:1;
+  margin-top:calc(var(--lh)*1.25);
+}
+.meta{margin-top:12px;font-size:12px;color:var(--dim);display:flex;gap:18px;flex-wrap:wrap}
+.desc{margin-top:var(--lh);font-size:15px;line-height:1.55}
+
+/* bouton principal */
+.play-main{
+  margin-top:calc(var(--lh)*1.25);
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  background:var(--ink);color:var(--bg);
+  border-radius:999px;padding:18px 26px;min-height:72px;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1);
+}
+.play-main:active{transform:scale(.985)}
+.play-main__t{font-family:var(--black);font-size:28px;line-height:1}
+.play-main__ic{width:22px;height:22px;flex:0 0 auto}
+.play-main__ic svg{width:100%;height:100%;display:block}
+.play-main__ic svg path{fill:var(--bg)}
+
+.hint{margin-top:14px;font-size:11px;color:var(--dim);line-height:1.5;display:flex;gap:8px;align-items:flex-start}
+
+/* transcript */
+.acc{margin-top:calc(var(--lh)*1.5);border-top:1px solid var(--faint);padding-top:16px}
+.acc__btn{display:flex;justify-content:space-between;align-items:center;width:100%;
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.acc__body{display:none;margin-top:16px;font-size:14px;line-height:1.7}
+.acc__body.on{display:block}
+.acc__body p{margin-bottom:14px}
+
+/* suite */
+.next{margin-top:calc(var(--lh)*2)}
+.next a{display:flex;justify-content:space-between;align-items:center;
+  border:1.5px solid var(--ink);border-radius:999px;padding:14px 22px;min-height:60px}
+.next__k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:4px}
+.next__t{font-family:var(--black);font-size:22px;line-height:1}
+.next__a{font-size:18px}
+
+/* ---------- à propos ---------- */
+h2.big{font-family:var(--black);font-weight:400;font-size:44px;line-height:1;padding-top:calc(var(--lh)*.5)}
+.about p{margin-top:var(--lh);font-size:15px;line-height:1.6}
+.credits{margin-top:calc(var(--lh)*1.5);display:flex;flex-direction:column;gap:18px}
+.credits div{display:flex;flex-direction:column;gap:4px}
+.credits .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.credits .v{font-size:15px}
+
+/* ---------- footer ---------- */
+.foot{margin-top:calc(var(--lh)*2.5);padding-top:20px;border-top:1px solid var(--faint);
+  display:flex;justify-content:space-between;font-size:11px;color:var(--dim);letter-spacing:.06em}
+
+/* ---------- lecteur ---------- */
+.player{
+  position:fixed;left:50%;bottom:12px;z-index:40;
+  width:calc(100% - 24px);max-width:496px;
+  transform:translateX(-50%) translateY(160%);
+  background:var(--ink);color:var(--bg);border-radius:999px;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;
+  padding:10px 16px 10px 10px;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1);
+}
+.player.on{transform:translateX(-50%) translateY(0)}
+.pbtn{width:52px;height:52px;border-radius:50%;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.pbtn svg{width:15px;height:15px}
+.pbtn svg path{fill:var(--ink)}
+.pmid{min-width:0}
+.ptitle{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pbar{height:2px;background:rgba(255,255,255,.25);margin-top:8px;border-radius:2px;position:relative;cursor:pointer}
+.pbar i{position:absolute;inset:0 auto 0 0;width:0%;background:var(--bg);border-radius:2px}
+.ptime{font-size:11px;opacity:.6;margin-top:6px;display:flex;justify-content:space-between}
+.pskip{display:flex;gap:6px;flex:0 0 auto}
+.pskip button{width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.3);font-size:9px;color:var(--bg);
+  display:flex;align-items:center;justify-content:center}
+
+</style>
+</head>
+<body class="no-player">
+
+<header>
+  <a class="brand" href="index.html">balade sonore</a>
+</header>
+
+<main class="about">
+  <h2 class="big">à propos</h2>
+  <p>Cette balade sonore a été créée pour les Médiévales du Houssoy, à Crouy-sur-Ourcq. Elle fait revivre le village par le son&nbsp;: récit, ambiances, effets et musique, portés par des personnages qui guident le visiteur d'un lieu à l'autre. Un format à la fois artistique et documentaire, fondé sur les légendes et l'histoire du village. Gratuite pour tous.</p>
+
+  <div class="credits">
+    <div><span class="k">Conception sonore &amp; écriture</span><span class="v">Konstantin Troitckii</span></div>
+    <div><span class="k">Direction artistique &amp; design</span><span class="v">Polina Burushina</span></div>
+    <div><span class="k">Voix</span><span class="v">[à compléter]</span></div>
+    <div><span class="k">Avec le soutien de</span><span class="v">Mairie de Crouy-sur-Ourcq · Le Club · Moulin Méli-Mêl'eaux</span></div>
+    <div><span class="k">Contact</span><span class="v">[email]</span></div>
+  </div>
+
+  <div class="section-label">Le parcours</div>
+  <div class="chain">
+    <a class="cap" href="eglise.html"><span><span class="cap__t">L'église</span></span></a>
+    <div class="link"></div>
+    <a class="cap" href="place.html"><span><span class="cap__t">La place du Marché</span></span></a>
+    <div class="link"></div>
+    <a class="cap" href="donjon.html"><span><span class="cap__t">Le donjon</span></span></a>
+  </div>
+</main>
+</body>
+</html>
