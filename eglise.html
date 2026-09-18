@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>L&#x27;église — Balade sonore à Crouy-sur-Ourcq</title>
+<meta name="description" content="Balade sonore à Crouy-sur-Ourcq — L&#x27;église.">
+<link rel="preload" href="fonts/UnifrakturMaguntia-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="stop-page">
+
+<header>
+  <a class="brand" href="index.html">balade sonore à Crouy-sur-Ourcq</a>
+</header>
+
+<main>
+  <div class="illu">
+    <img src="img/image_leglise.png" alt="L&#x27;église">
+  </div>
+
+  <button class="play-main" id="s-play" type="button" aria-label="Écouter : L&#x27;église">
+    <span class="play-main__row">
+      <span class="play-main__t">L&#x27;église</span>
+      <span class="play-main__ic" id="s-playicon" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg></span>
+    </span>
+    <span class="play-main__bar" id="p-bar" aria-hidden="true"><i id="p-fill"></i></span>
+    <span class="play-main__time" aria-hidden="true"><span id="p-cur">0:00</span><span id="p-dur">8:20</span></span>
+  </button>
+
+  <p class="err" id="s-err" role="alert" hidden>Le son ne se charge pas. Vérifiez votre connexion internet, puis appuyez de nouveau sur le bouton.</p>
+
+  <a class="stop-legal" href="index.html#mentions">à propos et mentions légales</a>
+</main>
+
+<audio id="audio" preload="metadata" playsinline></audio>
+
+<script>
+window.STOP = {
+  id:    "eglise",
+  title: "L'église",
+  src:   "audio/eglise.mp3",
+  illu:  "img/image_leglise.png"
+};
+</script>
+<script src="player.js"></script>
+<script data-goatcounter="https://burushina.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
