@@ -1,0 +1,143 @@
+/* ============================================================
+   BALADE SONORE · Crouy-sur-Ourcq — feuille de style commune
+   Mobile-first. Blackletter pour les titres, mono pour le reste.
+   N&B strict. Rythme vertical : LH = 24px.
+   ============================================================ */
+
+@font-face{
+  font-family:'UnifrakturMaguntia';
+  src:url('fonts/UnifrakturMaguntia-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'JetBrains Mono';
+  src:url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+
+:root{
+  --ink:#0a0a0a;
+  --bg:#ffffff;
+  --dim:rgba(10,10,10,.45);
+  --faint:rgba(10,10,10,.10);
+  --black:'UnifrakturMaguntia', serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+  --lh:24px;
+  --pad:20px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+/* page « à propos » : pas d'effet élastique au-delà de la fin du texte */
+html:has(main.about), html:has(main.about) body{overscroll-behavior:none}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--mono);
+  font-size:14px;line-height:var(--lh);
+  font-feature-settings:"tnum" 1;
+  -webkit-font-smoothing:antialiased;
+  max-width:520px;margin:0 auto;
+  min-height:100svh;
+  padding:0 var(--pad) calc(var(--lh)*2);
+  -webkit-tap-highlight-color:transparent;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+/* ---------- header ---------- */
+header{
+  display:flex;align-items:center;
+  height:calc(var(--lh)*2.5);
+  position:sticky;top:0;background:var(--bg);z-index:20;
+}
+.brand{
+  font-family:var(--black);
+  font-size:clamp(18px,5.6vw,24px);line-height:1;
+  white-space:nowrap;
+}
+
+/* ---------- à propos ---------- */
+h2.big{font-family:var(--black);font-weight:400;font-size:44px;line-height:1;padding-top:calc(var(--lh)*.5)}
+h3.small{
+  font-family:var(--black);font-weight:400;font-size:28px;line-height:1;
+  margin-top:calc(var(--lh)*2.5);
+}
+.about p{margin-top:var(--lh);font-size:15px;line-height:1.6}
+.about .legal p{font-size:13px;line-height:1.6;margin-top:calc(var(--lh)*.75)}
+.about a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.credits{margin-top:calc(var(--lh)*1.5);display:flex;flex-direction:column;gap:18px}
+.credits div{display:flex;flex-direction:column;gap:4px}
+.credits .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.credits .v{font-size:15px;overflow-wrap:anywhere}
+
+/* ---------- page d'un arrêt ----------
+   L'illustration ET le bouton doivent toujours tenir dans l'écran,
+   sans défilement : colonne flex sur la hauteur réelle du viewport,
+   c'est l'illustration qui s'adapte, jamais le bouton. */
+body.stop-page{
+  display:flex;flex-direction:column;
+  height:100vh;height:100dvh;
+  padding-bottom:0;overflow:hidden;
+}
+body.stop-page header{flex:0 0 auto}
+body.stop-page main{
+  flex:1 1 auto;min-height:0;
+  display:flex;flex-direction:column;
+  padding-bottom:calc(var(--lh)*.75);
+}
+.illu{
+  margin-top:12px;   /* + le bas de la en-tête (~18px) = même écart qu'entre image et bouton */
+  width:100%;
+  display:flex;align-items:center;
+  overflow:hidden;
+  flex:1 1 auto;min-height:0;
+}
+.illu img{
+  max-width:100%;max-height:100%;
+  width:auto;height:auto;
+  object-fit:contain;display:block;
+}
+
+/* bouton principal — devient lui-même le lecteur une fois lancé */
+.play-main{
+  flex:0 0 auto;
+  margin-top:calc(var(--lh)*1.25);
+  width:100%;
+  background:var(--ink);color:var(--bg);
+  border-radius:32px;padding:18px 26px;min-height:72px;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1);
+  display:flex;flex-direction:column;justify-content:center;gap:10px;
+  text-align:left;
+}
+.play-main:active{transform:scale(.985)}
+.play-main__row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.play-main__t{font-family:var(--black);font-size:28px;line-height:1}
+.play-main__ic{width:22px;height:22px;flex:0 0 auto}
+.play-main__ic svg{width:100%;height:100%;display:block}
+.play-main__ic svg path{fill:var(--bg)}
+
+.play-main__bar{
+  display:none;
+  height:2px;background:rgba(255,255,255,.25);border-radius:2px;
+  position:relative;cursor:pointer;
+}
+/* zone tactile élargie : la barre fait 2px, le doigt a besoin de ~30px */
+.play-main__bar::before{content:"";position:absolute;inset:-14px 0}
+.play-main__bar i{position:absolute;inset:0 auto 0 0;width:0%;background:var(--bg);border-radius:2px}
+.play-main__time{display:none;justify-content:space-between;font-size:11px;opacity:.6}
+.play-main.on .play-main__bar{display:block}
+.play-main.on .play-main__time{display:flex}
+
+.err{flex:0 0 auto;margin-top:12px;font-size:12px;line-height:1.5}
+.err[hidden]{display:none}
+
+.stop-legal{
+  flex:0 0 auto;
+  margin-top:12px;text-align:left;
+  font-size:10px;letter-spacing:.06em;color:var(--dim);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .play-main{transition:none}
+}
