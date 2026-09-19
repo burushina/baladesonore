@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "baladesonore.vercel.app" }],
+      "destination": "https://www.baladesonore-crouysurourcq.fr/:path*",
+      "permanent": false
+    }
+  ]
+}
