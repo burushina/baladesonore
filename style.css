@@ -141,3 +141,7 @@ body.stop-page main{
 @media (prefers-reduced-motion:reduce){
   .play-main{transition:none}
 }
+
+.credits a.ext{border-bottom:1px solid transparent;transition:border-color .15s}
+.credits a.ext::after{content:"\2009\2197";font-size:.8em;color:var(--dim)}
+.credits a.ext:hover{border-bottom-color:currentColor}
