@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
 <title>Balade sonore à Crouy-sur-Ourcq</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="Balade sonore à Crouy-sur-Ourcq, parcours sonore au cœur médiéval du village, présenté dans le programme officiel des Journées européennes du patrimoine 2026. Une création de Konstantin Troitckii et Polina Burushina.">
 <link rel="preload" href="fonts/UnifrakturMaguntia-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -43,15 +46,19 @@
     <div><span class="k">Contact</span><span class="v"><a href="mailto:accueil@baladesonore-crouysurourcq.fr">accueil@baladesonore-crouysurourcq.fr</a></span></div>
   </div>
 
-  <section class="legal" id="mentions">
-    <h3 class="small">mentions légales</h3>
+  <details class="legal" id="mentions">
+    <summary><h3 class="small">mentions légales</h3></summary>
     <p>Éditeur du site&nbsp;:<br>Konstantin Troitckii EI<br>SIRET&nbsp;: 130 680 184 00012<br>Code APE&nbsp;: 59.20Z</p>
     <p>Directeur de la publication&nbsp;:<br>Konstantin Troitckii</p>
     <p>Hébergement&nbsp;:<br>Vercel Inc.<br>440 N Barranca Ave #4133<br>Covina, CA 91723<br>États-Unis<br>+1 951 383 6898</p>
     <p>Mesure d’audience&nbsp;:<br>Ce site n’utilise aucun cookie.<br>La fréquentation du site et les écoutes sont mesurées de manière anonyme à l’aide de GoatCounter, uniquement afin de connaître la fréquentation de la balade.</p>
-  </section>
+  </details>
 </main>
 
+<script>
+  // ouvrir les mentions légales quand on arrive par le lien « mentions légales »
+  if (location.hash === '#mentions') document.getElementById('mentions').open = true;
+</script>
 <script data-goatcounter="https://burushina.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
